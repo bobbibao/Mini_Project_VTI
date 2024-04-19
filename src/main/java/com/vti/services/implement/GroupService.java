@@ -23,26 +23,31 @@ public class GroupService implements IGroupService{
 	}
 	@Override
 	public boolean insert(GroupModel s) {
-		// TODO Auto-generated method stub
-		return false;
+		this.groupRepository.save(s);
+		return true;
 	}
 
 	@Override
 	public boolean update(GroupModel s) {
-		// TODO Auto-generated method stub
+		if(this.groupRepository.existsById(s.getGroupId())) {
+			this.groupRepository.save(s);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteById(Long p) {
-		// TODO Auto-generated method stub
+		if(this.groupRepository.existsById(p)) {
+			this.groupRepository.deleteById(p);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public Optional<GroupModel> getById(Long p) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		return this.groupRepository.findById(p);
 	}
 
 	@Override

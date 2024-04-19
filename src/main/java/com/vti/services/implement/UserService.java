@@ -26,26 +26,31 @@ public class UserService implements IUserService{
 
 	@Override
 	public boolean insert(UserModel s) {
-		// TODO Auto-generated method stub
-		return false;
+		this.userRepository.save(s);
+		return true;
 	}
 
 	@Override
 	public boolean update(UserModel s) {
-		// TODO Auto-generated method stub
+		if(this.userRepository.existsById(s.getUserId())) {
+			this.userRepository.save(s);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteById(Long p) {
-		// TODO Auto-generated method stub
+		if(this.userRepository.existsById(p)) {
+			this.userRepository.deleteById(p);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public Optional<UserModel> getById(Long p) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		return this.userRepository.findById(p);
 	}
 
 	@Override
