@@ -8,11 +8,19 @@ import org.springframework.stereotype.Service;
 
 import com.vti.models.GroupModel;
 import com.vti.models.UserModel;
+import com.vti.repositories.IGroupRepository;
+import com.vti.repositories.IUserRepository;
 import com.vti.services.interfaces.IGroupService;
 
 @Service
 public class GroupService implements IGroupService{
 
+	private IGroupRepository groupRepository;
+	private IUserRepository userRepository;
+	public GroupService(IGroupRepository groupRepository, IUserRepository userRepository) {
+		this.groupRepository = groupRepository;
+		this.userRepository = userRepository;
+	}
 	@Override
 	public boolean insert(GroupModel s) {
 		// TODO Auto-generated method stub
@@ -39,8 +47,7 @@ public class GroupService implements IGroupService{
 
 	@Override
 	public List<GroupModel> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.groupRepository.findAll();
 	}
 
 	@Override

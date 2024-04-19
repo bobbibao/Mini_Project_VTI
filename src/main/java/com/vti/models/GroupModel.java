@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "`groups`")
 @Getter @Setter @NoArgsConstructor
 public class GroupModel {
 
