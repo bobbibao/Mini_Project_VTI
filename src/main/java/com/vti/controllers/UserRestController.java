@@ -3,14 +3,15 @@ package com.vti.controllers;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.models.GroupModel;
 import com.vti.models.UserModel;
 import com.vti.services.implement.UserService;
 
@@ -31,51 +32,74 @@ public class UserRestController {
 	private UserService userService;
 
 	public UserRestController(UserService userService) {
-		super();
 		this.userService = userService;
 	}
 	
+	//Methods: Get user
 	@GetMapping()
 	public ResponseEntity<List<UserModel>> getAllUsers() {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.getAll());
 	}
 	
 	@GetMapping("/{userId}")
-	public ResponseEntity<Optional<UserModel>> getUserById(@PathVariable long userId){
-		return ResponseEntity.status(HttpStatus.OK).body(userService.getById(userId));
+	public ResponseEntity<UserModel> getUserById(@PathVariable long userId){
+		Optional<UserModel> user = userService.getById(userId);
+		return user.map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
 	}
 	
+	@GetMapping("/{userId}/groups")
+	public ResponseEntity<Set<GroupModel>> getGroupsForUser(@PathVariable long userId){
+		Set<GroupModel> groups = userService.getGroupsForUser(userId);
+		return ResponseEntity.ok(groups);
+	}
+	
+	//Methods: Create user
 	@PostMapping()
 	public ResponseEntity<String> addUser(@RequestBody UserModel user) {
 		boolean isInserted = userService.insert(user);
-		if(isInserted)
-			return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully!");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User added fail!");
+		return isInserted
+			? ResponseEntity.status(HttpStatus.CREATED).body("User added successfully!")
+			: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User added fail!");
 	}
 	
+	//Methods: Update user
 	@PutMapping("/{userId}")
 	public ResponseEntity<String> updateUser(@PathVariable long userId, @RequestBody UserModel user) {
 		user.setUserId(userId);
 		
 		boolean isUpdated = userService.update(user);
-		if(isUpdated)
-			return ResponseEntity.status(HttpStatus.OK).body("User updated successfully!");
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
+		return isUpdated
+			? ResponseEntity.ok("User updated successfully!")
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
 	}
 	
 	@PatchMapping("/{userId}")
-	public ResponseEntity<String> updateInfoUser(@PathVariable long userId, @RequestBody Map<String, Object> updates) {
+	public ResponseEntity<String> updateUserNamePassword(@PathVariable long userId, @RequestBody Map<String, Object> updates) {
 		boolean isUpdated = userService.updatePartial(userId, updates);
-		if(isUpdated)
-			return ResponseEntity.status(HttpStatus.OK).body("User updated successfully!");
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
+		return isUpdated
+			? ResponseEntity.ok("User updated successfully!")
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
 	}
 	
+	//Methods: Delete user
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<String> deleteUser(@PathVariable long userId) {
+	public ResponseEntity<Void> deleteUser(@PathVariable long userId) {
 		boolean isDeleted = userService.deleteById(userId);
-		if(isDeleted)
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
+		return isDeleted
+			? ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+	
+	@DeleteMapping("{userId}/groups/{groupId}")
+	public ResponseEntity<Void> removeUserFromGroup(
+			@PathVariable long userId,
+			@PathVariable long groupId
+	){
+		boolean isRemoved = userService.removeUserFromGroup(userId, groupId);
+		return isRemoved
+			? ResponseEntity.noContent().build()
+			: ResponseEntity.notFound().build();
+	}
+	
 }

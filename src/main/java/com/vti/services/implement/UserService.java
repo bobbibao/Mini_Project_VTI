@@ -61,27 +61,41 @@ public class UserService implements IUserService{
 
 	@Override
 	public Set<GroupModel> getGroupsForUser(long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<UserModel> userOpt = this.userRepository.findById(userId);
+		return userOpt.map(UserModel::getGroups)
+				.orElse(null);
 	}
 
 	@Override
 	public boolean removeUserFromGroup(long userId, long groupId) {
-		// TODO Auto-generated method stub
-		return false;
+		Optional<UserModel> userOpt = this.userRepository.findById(userId);
+		Optional<GroupModel> groupOpt = this.groupRepository.findById(groupId);
+		if(!userOpt.isPresent() || !groupOpt.isPresent())
+			return false;
+		
+		UserModel user = userOpt.get();
+		GroupModel group = groupOpt.get();
+		if(!user.getGroups().remove(group) || !group.getUsers().remove(user))
+			return false;
+		
+		this.userRepository.save(user);
+		return true;
 	}
 
 	@Override
 	public boolean updatePartial(Long p, Map<String, Object> updates) {
-		if(this.userRepository.existsById(p)) {
-			Optional<UserModel> user = this.userRepository.findById(p);
-			user.get().setUsername(updates.get("username").toString());
-			user.get().setPassword(updates.get("password").toString());
-			userRepository.save(user.get());
-			return true;
-		}
-		return false;
+		Optional<UserModel> userOpt = this.userRepository.findById(p);
+		if(!userOpt.isPresent())
+			return false;
+		
+		UserModel user = userOpt.get();
+		
+		if(updates.containsKey("username"))
+			user.setUsername((String) updates.get("username"));
+		if(updates.containsKey("password"))
+			user.setPassword((String) updates.get("password"));
+		
+		this.userRepository.save(user);
+		return true;
 	}
-
-
 }

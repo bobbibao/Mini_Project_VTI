@@ -49,7 +49,8 @@ public class GroupService implements IGroupService{
 
 	@Override
 	public Optional<GroupModel> getById(Long p) {
-		return this.groupRepository.findById(p);
+		Optional<GroupModel> groupOpt = this.groupRepository.findById(p);
+		return groupOpt;
 	}
 
 	@Override
@@ -59,21 +60,43 @@ public class GroupService implements IGroupService{
 
 	@Override
 	public boolean addUserToGroup(long groupId, long userId) {
-		// TODO Auto-generated method stub
+		Optional<GroupModel> groupOpt = this.groupRepository.findById(groupId);
+		Optional<UserModel> userOpt = this.userRepository.findById(userId);
+		if(groupOpt.isPresent() && userOpt.isPresent()) {
+			GroupModel group = groupOpt.get();
+			UserModel user = userOpt.get();
+			if(group.getUsers().add(user) && user.getGroups().add(group)) {
+				this.groupRepository.save(group);
+				return true;
+			}
+		}
+			
 		return false;
 	}
 
 	@Override
 	public boolean removeUserFromGroup(long groupId, long userId) {
-		// TODO Auto-generated method stub
+		Optional<GroupModel> groupOpt = this.groupRepository.findById(groupId);
+		Optional<UserModel> userOpt = this.userRepository.findById(userId);
+		if(groupOpt.isPresent() && userOpt.isPresent()) {
+			GroupModel group = groupOpt.get();
+			UserModel user = userOpt.get();
+			if(group.getUsers().remove(user) && user.getGroups().remove(group)) {
+				this.groupRepository.save(group);
+				return true;
+			}
+		}
+			
 		return false;
 	}
 
 	@Override
 	public Set<UserModel> getUsersInGroup(long groupId) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<GroupModel> groupOpt = this.groupRepository.findById(groupId);
+		return groupOpt.map(GroupModel::getUsers)
+				.orElse(null);
 	}
+	
 	@Override
 	public boolean updatePartial(Long p, Map<String, Object> updates) {
 		GroupModel group = this.groupRepository.findById(p).orElse(null);
@@ -86,8 +109,13 @@ public class GroupService implements IGroupService{
 				case "groupName":
 					group.setGroupName((String) value);
 					break;
+				
+				default:
+					break;
 			}
 		});
+		
+		this.groupRepository.save(group);
 		return true;
 	}
 
