@@ -1,5 +1,5 @@
 # Mini_Project_VTI
-this project for practicing spring, postman and Jira foundation with creating restfull api in VTI academy - trainee developer
+This project for practicing spring, postman and Jira foundation with creating restfull api in VTI academy - trainee developer
 
 ## Project Structure:
 ```java
@@ -21,14 +21,14 @@ Mini_Project_VTI
 │  │  │        ├─ repositories: JPA repositories
 │  │  │        │  ├─ IGroupRepository.java
 │  │  │        │  └─ IUserRepository.java
-│  │  │        ├─ services: Service interfaces and implementations
-│  │  │        │  ├─ interfaces: Service interfaces
-│  │  │        │  │  ├─ IService.java
-│  │  │        │  │  ├─ IGroupService.java
-│  │  │        │  │  └─ IUserService.java
-│  │  │        │  └─ implement: Service implementations
-│  │  │        │     ├─ GroupService.java
-│  │  │        │     └─ UserService.java
+│  │  │        └─ services: Service interfaces and implementations
+│  │  │           ├─ interfaces: Service interfaces
+│  │  │           │  ├─ IService.java
+│  │  │           │  ├─ IGroupService.java
+│  │  │           │  └─ IUserService.java
+│  │  │           └─ implement: Service implementations
+│  │  │              ├─ GroupService.java
+│  │  │              └─ UserService.java
 │  │  └─ resources: Configuration files
 │  │     └─ application.properties
 │  └─ test
