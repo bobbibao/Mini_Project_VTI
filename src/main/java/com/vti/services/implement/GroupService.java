@@ -1,6 +1,8 @@
 package com.vti.services.implement;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -71,6 +73,22 @@ public class GroupService implements IGroupService{
 	public Set<UserModel> getUsersInGroup(long groupId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public boolean updatePartial(Long p, Map<String, Object> updates) {
+		GroupModel group = this.groupRepository.findById(p).orElse(null);
+		if(Objects.isNull(group)) {
+			return false;
+		}
+		
+		updates.forEach((key, value) -> {
+			switch(key) {
+				case "groupName":
+					group.setGroupName((String) value);
+					break;
+			}
+		});
+		return true;
 	}
 
 }

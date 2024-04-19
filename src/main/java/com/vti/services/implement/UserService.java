@@ -1,6 +1,7 @@
 package com.vti.services.implement;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -69,5 +70,18 @@ public class UserService implements IUserService{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean updatePartial(Long p, Map<String, Object> updates) {
+		if(this.userRepository.existsById(p)) {
+			Optional<UserModel> user = this.userRepository.findById(p);
+			user.get().setUsername(updates.get("username").toString());
+			user.get().setPassword(updates.get("password").toString());
+			userRepository.save(user.get());
+			return true;
+		}
+		return false;
+	}
+
 
 }

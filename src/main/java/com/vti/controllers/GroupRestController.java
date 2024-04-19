@@ -28,4 +28,5 @@ public class GroupRestController {
 	public ResponseEntity<List<GroupModel>> getAllGroups(){
 		return ResponseEntity.status(HttpStatus.OK).body(groupService.getAll());
 	}
+	
 }
