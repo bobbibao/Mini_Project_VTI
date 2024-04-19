@@ -56,7 +56,7 @@ public class UserRestController {
 	
 	//Methods: Create user
 	@PostMapping()
-	public ResponseEntity<String> addUser(@RequestBody UserModel user) {
+	public ResponseEntity<String> createMewUser(@RequestBody UserModel user) {
 		boolean isInserted = userService.insert(user);
 		return isInserted
 			? ResponseEntity.status(HttpStatus.CREATED).body("User added successfully!")
@@ -94,8 +94,7 @@ public class UserRestController {
 	@DeleteMapping("{userId}/groups/{groupId}")
 	public ResponseEntity<Void> removeUserFromGroup(
 			@PathVariable long userId,
-			@PathVariable long groupId
-	){
+			@PathVariable long groupId){
 		boolean isRemoved = userService.removeUserFromGroup(userId, groupId);
 		return isRemoved
 			? ResponseEntity.noContent().build()
