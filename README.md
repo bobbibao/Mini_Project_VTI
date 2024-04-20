@@ -1,5 +1,5 @@
 # Mini_Project_VTI
-This project for practicing spring, postman and Jira foundation with creating restfull api in VTI academy - trainee developer
+- This project for practicing spring, postman and Jira foundation with creating restfull api in VTI academy - trainee developer
 
 ## Project Structure:
 ```java
@@ -73,7 +73,9 @@ Mini_Project_VTI
 
 ### Jira
 
-<img width="1180" alt="Screen Shot 2024-04-20 at 02 39 47" src="https://github.com/bobbibao/Mini_Project_VTI/assets/88239380/63852aeb-1dca-4647-9622-0a07b62fc3a6">
+<img width="1427" alt="Screen Shot 2024-04-20 at 09 58 51" src="https://github.com/bobbibao/Mini_Project_VTI/assets/88239380/dcd64361-7ad2-45e8-8036-efadd87161a6">
+<img width="1189" alt="Screen Shot 2024-04-20 at 09 59 45" src="https://github.com/bobbibao/Mini_Project_VTI/assets/88239380/c894fd0a-6c7f-4fdc-857b-27a763761169">
+
 
 ### Database
 
