@@ -1,9 +1,9 @@
 import axiosClient from './axiosClient';
 
 const UserServices = {
-    async getUsers() {
+    async getAllUsers() {
         try {
-            const response = await axiosClient.get( process.env.REACT_APP_API_URL+ '/users');
+            const response = await axiosClient.get(process.env.REACT_APP_API_URL+ '/users');
             return response.data;
         } catch (error) {
             throw error;
