@@ -17,7 +17,7 @@ const UserServices = {
             throw error;
         }
     },
-    async createUser(data) {
+    async addUser(data) {
         try {
             const response = await axiosClient.post('/users', data);
             return response.data;
