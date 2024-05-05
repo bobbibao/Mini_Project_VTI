@@ -32,6 +32,9 @@ const StyledTable = styled.table`
         border: 1px solid black;
         padding: 8px;
         text-align: left;
+        & input {
+            border: 0;
+        }
     }
     & th {
         background-color: #f2f2f2;
@@ -41,6 +44,10 @@ const StyledTable = styled.table`
     }
     & tr:hover {
         background-color: #f1f1f1;
+    }
+    .checkbox {
+        padding: 5px 0;
+        text-align: center;
     }
 `;
 
