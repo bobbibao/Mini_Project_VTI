@@ -44,3 +44,4 @@ public class UserModel {
 			inverseJoinColumns = @JoinColumn(name = "groupId", referencedColumnName = "groupId"))
 	private Set<GroupModel> groups = new HashSet<GroupModel>();
 }
+

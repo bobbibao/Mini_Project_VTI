@@ -57,11 +57,11 @@ public class UserRestController {
 	
 	//Methods: Create user
 	@PostMapping()
-	public ResponseEntity<String> createMewUser(@RequestBody UserModel user) {
+	public ResponseEntity<UserModel> createMewUser(@RequestBody UserModel user) {
 		boolean isInserted = userService.insert(user);
 		return isInserted
-			? ResponseEntity.status(HttpStatus.CREATED).body("User added successfully!")
-			: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User added fail!");
+			? ResponseEntity.status(HttpStatus.CREATED).body(user)
+			: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	}
 	
 	//Methods: Update user
