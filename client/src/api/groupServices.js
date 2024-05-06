@@ -3,7 +3,8 @@ import axiosClient from './axiosClient';
 const GroupServices = {
     async getGroups() {
         try {
-        const response = await axiosClient.get('/groups');
+        const response = await axiosClient.get(process.env.REACT_APP_API_URL+ '/groups');
+        console.log(response);
         return response.data;
         } catch (error) {
         throw error;
