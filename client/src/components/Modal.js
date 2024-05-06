@@ -15,7 +15,7 @@ const Modal = ({ isModalOpen, handleSubmit, children }) => {
 export default Modal;
 
 const ModalContainer = styled.div`
-    display: ${({ isModalOpen }) => isModalOpen ? 'flex' : 'none'};
+    display: ${props => props.isModalOpen ? 'flex' : 'none'};
     position: fixed;
     top: 0;
     left: 0;

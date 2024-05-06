@@ -40,6 +40,15 @@ const UserServices = {
         } catch (error) {
             throw error;
         }
+    },
+    async deleteManyUsers({userIds}) {
+        try {
+            const response = await axiosClient.delete(`/users`, { data: userIds });
+            console.log(response);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };
 

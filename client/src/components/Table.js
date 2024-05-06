@@ -28,6 +28,8 @@ Table.Body = ({ children }) => {
 const StyledTable = styled.table`
     border-collapse: collapse;
     width: 100%;
+    overflow-y: hidden;
+    height: 100%;
     & th, td {
         border: 1px solid black;
         padding: 8px;

@@ -10,6 +10,7 @@ function User() {
     const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [checked, setChecked] = useState([]);
 
     useEffect(() => {
         UserServices.getAllUsers().then(data => {
@@ -24,11 +25,20 @@ function User() {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-    const handleDelete = () => {
-        console.log('Delete');
+    const handleCheck = (id) => {
+        (checked.includes(id))
+            ? setChecked(checked.filter(item => item !== id))
+            : setChecked([...checked, id]);
     };
 
-    const handleSubmit = () => {
+    const handleDelete = () => {
+       UserServices.deleteManyUsers({ userIds: checked }).then(data => {
+            setUsers(users.filter(user => !checked.includes(user.userId)));
+            setChecked([]);
+        });
+    };
+
+    const handleSubmit = () => { 
         UserServices.addUser({ username, password: fullname, email }).then(data => {
             setUsers([...users, data]);
         });
@@ -64,7 +74,7 @@ function User() {
                                 <td>{user.email}</td>
                                 <td>{user.role}</td>
                                 <td className="checkbox">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" checked={checked.includes(user.userId)} onChange={() => handleCheck(user.userId)}/>
                                 </td>
                             </tr>
                         ))
