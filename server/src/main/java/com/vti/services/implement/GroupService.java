@@ -118,5 +118,10 @@ public class GroupService implements IGroupService{
 		this.groupRepository.save(group);
 		return true;
 	}
+	@Override
+	public boolean deleteMany(List<Long> userIds) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

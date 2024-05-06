@@ -92,6 +92,13 @@ public class UserRestController {
 			: ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
+	@DeleteMapping()
+	public ResponseEntity<Void> deleteManyUsers(@RequestBody List<Long> userIds){
+		userService.deleteMany(userIds);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+	
+		
 	@DeleteMapping("{userId}/groups/{groupId}")
 	public ResponseEntity<Void> removeUserFromGroup(
 			@PathVariable long userId,
@@ -101,5 +108,4 @@ public class UserRestController {
 			? ResponseEntity.noContent().build()
 			: ResponseEntity.notFound().build();
 	}
-	
 }

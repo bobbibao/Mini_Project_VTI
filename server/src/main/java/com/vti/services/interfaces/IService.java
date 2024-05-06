@@ -11,4 +11,5 @@ public interface IService<S, P> {
 	Optional<S> getById(P p);
 	List<S> getAll();
 	boolean updatePartial(P p, Map<String, Object> updates);
+	boolean deleteMany(List<Long> userIds);
 }

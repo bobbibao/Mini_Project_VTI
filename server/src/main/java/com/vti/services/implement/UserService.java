@@ -98,4 +98,10 @@ public class UserService implements IUserService{
 		this.userRepository.save(user);
 		return true;
 	}
+
+	@Override
+	public boolean deleteMany(List<Long> userIds) {
+		this.userRepository.deleteAllById(userIds);
+		return true;
+	}
 }
